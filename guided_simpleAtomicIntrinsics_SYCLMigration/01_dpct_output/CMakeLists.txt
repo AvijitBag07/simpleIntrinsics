@@ -15,8 +15,8 @@ include_directories(${CMAKE_SOURCE_DIR}/01_dpct_output/include/)
 add_executable (01_dpct_output Samples/0_Introduction/simpleAtomicIntrinsics/simpleAtomicIntrinsics_cpu.cpp Samples/0_Introduction/simpleAtomicIntrinsics/simpleAtomicIntrinsics.dp.cpp Samples/0_Introduction/simpleAtomicIntrinsics/simpleAtomicIntrinsics_kernel.dp.hpp)
 target_link_libraries(01_dpct_output sycl)
 
-add_custom_target (run_sm_gpu_cuda  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=cuda:gpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
-add_custom_target (run_sm_cpu  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=opencl:cpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
-add_custom_target (run_sm_gpu  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=level_zero:gpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
-add_custom_target (run_sm_gpu_opencl  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=opencl:gpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
+add_custom_target (run_gpu_cuda  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=cuda:gpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
+add_custom_target (run_cpu  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=opencl:cpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
+add_custom_target (run_gpu  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=level_zero:gpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
+add_custom_target (run_gpu_opencl  cd ${CMAKE_SOURCE_DIR}/01_dpct_output/ && ONEAPI_DEVICE_SELECTOR=opencl:gpu ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/01_dpct_output)
 

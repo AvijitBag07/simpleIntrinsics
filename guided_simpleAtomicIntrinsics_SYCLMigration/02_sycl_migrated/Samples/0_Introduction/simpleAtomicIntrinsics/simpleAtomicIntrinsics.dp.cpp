@@ -125,8 +125,8 @@ void runTest(int argc, char **argv) {
                        });
 
   // Copy result from device to host
-  checkCudaErrors(DPCT_CHECK_ERROR(stream->memcpy(hOData, dOData, memSize)));
-  checkCudaErrors(DPCT_CHECK_ERROR(stream->wait()));
+  DPCT_CHECK_ERROR(stream->memcpy(hOData, dOData, memSize));
+  DPCT_CHECK_ERROR(stream->wait());
 
   sdkStopTimer(&timer);
   printf("Processing time: %f (ms)\n", sdkGetTimerValue(&timer));
@@ -136,8 +136,7 @@ void runTest(int argc, char **argv) {
   testResult = computeGold(hOData, numThreads * numBlocks);
 
   // Cleanup memory
-  checkCudaErrors(
-      DPCT_CHECK_ERROR(sycl::free(hOData, dpct::get_in_order_queue())));
-  checkCudaErrors(
-      DPCT_CHECK_ERROR(dpct::dpct_free(dOData, dpct::get_in_order_queue())));
+  
+  DPCT_CHECK_ERROR(sycl::free(hOData, dpct::get_in_order_queue()));
+  DPCT_CHECK_ERROR(dpct::dpct_free(dOData, dpct::get_in_order_queue()));
 }

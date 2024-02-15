@@ -1,6 +1,6 @@
-# `Concurrent Kernels` Sample
+# `Simple Atomic Intrinsics` Sample
 
-The `Concurrent Kernels` sample demonstrates the use of SYCL queues for concurrent execution of several kernels on GPU devices. It is implemented using SYCL by migrating Native CUDA source code for offloading computations to a GPU or CPU and further demonstrates how to optimize and improve processing time.
+The `Simple Atomic Intrinsics` sample demonstrates the use of various SYCL arithmetic Atomic Intrinsic functions. The original CUDA* source code is migrated to SYCL for portability across GPUs from multiple vendors.
 
 | Area                   | Description
 |:---                    |:---
@@ -8,31 +8,28 @@ The `Concurrent Kernels` sample demonstrates the use of SYCL queues for concurre
 | Time to complete       | 15 minutes
 | Category               | Concepts and Functionality
 
->**Note**: This sample is migrated from NVIDIA CUDA sample. See the [concurrentKernels](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/0_Introduction/concurrentKernels) sample in the NVIDIA/cuda-samples GitHub.
+>**Note**: This sample is migrated from the NVIDIA CUDA sample. See the [SimpleAtomicIntrinsics](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/0_Introduction/simpleAtomicIntrinsics) sample in the NVIDIA/cuda-samples GitHub.
 
 ## Purpose
 
-The `Concurrent Kernels` sample shows the execution of multiple kernels on the device at the same time.
+The `Simple Atomic Intrinsics` sample shows the execution of multiple atomic intrinsic functions on the device.
 
-> **Note**: The sample used the open-source SYCLomatic tool that assists developers in porting CUDA code to SYCL code. To finish the process, you must complete the rest of the coding manually and then tune to the desired level of performance for the target architecture. You can also use the Intel® DPC++ Compatibility Tool available to augment Base Toolkit.
+> **Note**: The sample used the open-source SYCLomatic tool that assists developers in porting CUDA code to SYCL code. To finish the process, you must complete the rest of the coding manually and then tune to the desired level of performance for the target architecture. You can also use the Intel® DPC++ Compatibility Tool available to augment the Base Toolkit.
 
 This sample contains two versions of the code in the following folders:
 
 | Folder Name          | Description
 |:---                  |:---
-|`01_dpct_output`      | Contains output of SYCLomatic Tool used to migrate SYCL-compliant code from CUDA code. This SYCL code has some unmigrated code that has to be manually fixed to get full functionality. (The code does not functionally work as supplied.)
-|`02_sycl_migrated`    | Contains manually migrated SYCL code from CUDA code.
-
-## CUDA source code evaluation
-The `Concurrent Kernels` sample demonstrates the use of SYCL queues for concurrent execution of several kernels on GPU devices. It is implemented using SYCL to achieve parallel execution of kernels to a GPU or CPU and further demonstrates how to optimize and improve processing time.
+|`01_dpct_output`      | Contains the output of SYCLomatic Tool used to migrate SYCL-compliant code from CUDA code. 
+|`02_sycl_migrated`    | Contains migrated and cleaned-up SYCL code from CUDA code.
 
 ## Prerequisites
 
 | Optimized for         | Description
 |:---                   |:---
-| OS                    | Ubuntu* 20.04
+| OS                    | Ubuntu* 22.04
 | Hardware              | Intel® Gen9 <br>Intel® Gen11 <br>Intel® Xeon CPU <br>Intel® Data Center GPU Max <br> Nvidia Tesla P100 <br> Nvidia A100 <br> Nvidia H100 
-| Software              | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit (Base Kit) version 2023.2.1 <br> oneAPI for NVIDIA GPU plugin from Codeplay (to run SYCL™ applications on NVIDIA® GPUs)
+| Software              | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit (Base Kit) version 2024.0 <br> oneAPI for NVIDIA GPU plugin(version 2024.0) from Codeplay (to run SYCL™ applications on NVIDIA® GPUs)
 
 For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy) .<br>
 How to run SYCL™ applications on NVIDIA® GPUs, refer to 
@@ -40,17 +37,18 @@ How to run SYCL™ applications on NVIDIA® GPUs, refer to
 
 ## Key Implementation Details
 
-This sample demonstrates the migration of the following prominent CUDA feature:
+This sample demonstrates the migration of the following prominent CUDA features:
 
-- Streams and Event Management
-- Reduction
+- Atomic Intrinsics
 
-concurrentKernels involves a kernel that does no real work but runs at least for a specified number of iterations.
-
-This code demonstrates the use of CUDA streams for concurrent execution of multiple kernels. It creates multiple streams, each associated with a separate kernel, and uses cudaStreamWaitEvent to introduce dependencies between the streams. The code measures the elapsed time for both serial and concurrent execution of the kernels. The kernel has a loop that iterates for a specific number of times without performing any actual work. Finally, the code verifies if the concurrent execution of kernels was faster than the serial execution based on the measured times.
+The kernel `testKernel` demonstrates SYCL arithmetic atomic functions in device code such as `atomic_fetch_add`, `atomic_fetch_sub`, `atomic_exchange`, `atomic_fetch_max`, `atomic_fetch_min`, `atomic_fetch_compare_inc`, `atomic_fetch_compare_dec`, `atomic_compare_exchange_strong`, `atomic_fetch_and`, `atomic_fetch_or`, and `atomic_fetch_xor` migrated from CUDA atomic instructions.
 
 >**Note**: Refer to [Workflow for a CUDA* to SYCL* Migration](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/cuda-sycl-migration-workflow.html) for general information about the migration workflow.
 
+## CUDA source code evaluation
+The `Simple Atomic Intrinsics` CUDA sample demonstrates the use of global memory atomic instructions.
+
+> **Note**: For more information on how to use the Syclomatic Tool, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.vmhplg).
 
 ## Set Environment Variables
 
@@ -64,9 +62,9 @@ For this sample, the SYCLomatic tool automatically migrates 100% of the CUDA cod
    ```
    git clone https://github.com/NVIDIA/cuda-samples.git
    ```
-2. Change to the concurrentKernels sample directory.
+2. Change to the SimpleAtomicIntrinsics sample directory.
    ```
-   cd cuda-samples/Samples/0_Introduction/concurrentKernels/
+   cd cuda-samples/Samples/0_Introduction/simpleAtomicIntrinsics/
    ```
 3. Generate a compilation database with intercept-build.
    ```
@@ -74,34 +72,22 @@ For this sample, the SYCLomatic tool automatically migrates 100% of the CUDA cod
    ```
    This step creates a JSON file named compile_commands.json with all the compiler invocations and stores the names of the input files and the compiler options.
 
-4. Pass the JSON file as input to the Intel® SYCLomatic Compatibility Tool. The result is written to a folder named dpct_output. The --in-root specifies path to the root of the source tree to be migrated.
+4. Pass the JSON file as input to the Intel® SYCLomatic Compatibility Tool. The result is written to a folder named dpct_output. The `--in-root` specifies the path to the root of the source tree to be migrated. The `--gen-helper-function`  option will make a copy of the dpct header files/functions used in migrated code into the dpct_output folder as include folder. 
    ```
    c2s -p compile_commands.json --in-root ../../.. --gen-helper-function 
    ```
-## Manual Workarounds
-The following warnings in the "DPCT1XXX" format are generated by the tool to indicate the code not migrated by the tool and need to be manually modified in order to complete the migration.
-1. DPCT1008: Clock function is not defined in SYCL. This is a hardware-specific feature. 
-      ```
-      unsigned int start_clock = (unsigned int)clock();
-      ```
    
-    Since, in SYCL kernel, there is no clock feature support. In future it will be added in SYCL. 
-    Currently in `02_sycl_migrated` added temporary code to make it executable.
-     ```
-     void clock_block(clock_t *d_o, clock_t clock_count) {
-       for (int i = 0; i < 500000; i++) {
-        d_o[0] = d_o[0] + i;
-      }
-     }
-     ```
+## Manual Workarounds
+The following warnings in the "DPCT1XXX" format are generated by the tool to indicate the code has not been migrated by the tool and needs to be manually modified to complete the migration.
 
-## Build and Run the `Concurrent Kernels` Sample
+
+## Build and Run the `Simple Atomic Intrinsics` Sample
 
 > **Note**: If you have not already done so, set up your CLI
-> environment by sourcing  the `setvars` script in the root of your oneAPI installation.
+> environment by sourcing  the `setvars` script at the root of your oneAPI installation.
 >
 > Linux*:
-> - For system wide installations: `. /opt/intel/oneapi/setvars.sh`
+> - For system-wide installations: `. /opt/intel/oneapi/setvars.sh`
 > - For private installations: ` . ~/intel/oneapi/setvars.sh`
 > - For non-POSIX shells, like csh, use the following command: `bash -c 'source <install-dir>/setvars.sh ; exec csh'`
 >
@@ -122,24 +108,23 @@ The following warnings in the "DPCT1XXX" format are generated by the tool to ind
    $ make
    ```
    > **Note**:
-   > - By default, no flag are enabled during build which supports Intel® UHD Graphics, Intel® Gen9, Gen11, Xeon CPU.
+   > - By default, no flags are enabled during the build which supports Intel® UHD Graphics, Intel® Gen9, Gen11, and Xeon CPU.
    > - Enable **INTEL_MAX_GPU** flag during build which supports Intel® Data Center GPU Max 1550 or 1100 to get optimized performance.
-   > - Enable **NVIDIA_GPU** flag during build which supports NVIDIA GPUs.([oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/) plugin   from Codeplay is required to build for NVIDIA GPUs )
+   > - Enable **NVIDIA_GPU** flag during the build which supports NVIDIA GPUs([oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/) plugin from 
+   Codeplay is required to build for NVIDIA GPUs).
    >   
    >
 
    
    By default, this command sequence will build the  `02_sycl_migrated` version of the program.
 
-4. Run `02_sycl_migrated` on GPU.
+4. Run `02_sycl_migrated` on CPU and GPU.
+   
    ```
-   make run_sm
-   ```
-   Run `02_sycl_migrated` on CPU.
-   ```
-   export ONEAPI_DEVICE_SELECTOR=opencl:cpu
-   make run_sm
-   unset ONEAPI_DEVICE_SELECTOR
+   make run_sm_cpu (runs on CPU)
+   make run_sm_gpu (runs on Level-Zero Backend)
+   make run_sm_gpu_opencl (runs on OpenCL Backend)
+   make run_sm_gpu_cuda (runs on cuda Backend)
    ```
 
 #### Troubleshooting
@@ -151,18 +136,6 @@ make VERBOSE=1
 ```
 If you receive an error message, troubleshoot the problem using the **Diagnostics Utility for Intel® oneAPI Toolkits**. The diagnostic utility provides configuration and system checks to help find missing dependencies, permissions errors, and other issues. See the [Diagnostics Utility for Intel® oneAPI Toolkits User Guide](https://www.intel.com/content/www/us/en/develop/documentation/diagnostic-utility-user-guide/top.html) for more information on using the utility.
 
-
-## Example Output
-
-The following example is for `02_sycl_migrated` for GPU on **Intel(R) UHD Graphics [0x9a60]**.
-```
-[./a.out] - Starting...
-> Detected Compute SM 3.0 hardware with 12 multi-processors
-Expected time for serial execution of 8 kernels = 0.080s
-Expected time for concurrent execution of 8 kernels = 0.010s
-Measured time for sample = 0.256s
-Test passed
-```
 
 ## License
 

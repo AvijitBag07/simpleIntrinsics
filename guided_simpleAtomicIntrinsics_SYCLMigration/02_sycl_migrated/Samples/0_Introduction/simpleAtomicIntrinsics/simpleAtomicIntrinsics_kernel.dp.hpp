@@ -66,13 +66,16 @@ void testKernel(int *g_odata, const sycl::nd_item<3> &item_ct1) {
   dpct::atomic_fetch_min<sycl::access::address_space::generic_space>(
       &g_odata[4], tid);
 
+ //Since in SYCL there is no direct mapping for atomic_fetch_compare_inc & atomic_fetch_compare_dec, SYCLomatic emulates the functionality by using a loop, which is not efficient.
+//But currently there is no specific support in Intel HW to implement those two functions more efficiently, so that's why there exists a big performance gap. 
+    
   // Atomic increment (modulo 17+1)
-  dpct::atomic_fetch_compare_inc<sycl::access::address_space::generic_space>(
-      (unsigned int *)&g_odata[5], 17);
+  //dpct::atomic_fetch_compare_inc<sycl::access::address_space::generic_space>(
+  //    (unsigned int *)&g_odata[5], 17);
 
   // Atomic decrement
-  dpct::atomic_fetch_compare_dec<sycl::access::address_space::generic_space>(
-      (unsigned int *)&g_odata[6], 137);
+  //dpct::atomic_fetch_compare_dec<sycl::access::address_space::generic_space>(
+   //   (unsigned int *)&g_odata[6], 137);
 
   // Atomic compare-and-swap
   dpct::atomic_compare_exchange_strong<
